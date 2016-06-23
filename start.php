@@ -38,10 +38,10 @@ $objPHPExcel =  \PHPExcel_IOFactory::load($file_name);
 $outputFileName = date('YmdHms').'_'.$file_name;
 $workSheet = $objPHPExcel->getActiveSheet();
 //获取行数，并把数据读取出到$data数组
-$rowCount=$workSheet->getHighestRow();//excel行数
+$rowCount=$config['ROW_COUNT']?$config['ROW_COUNT']:$workSheet->getHighestRow();//excel行数
 //echo $rowCount;
 
-for($i=$config['START_ROW'];$i<=$rowCount;$i++){
+for($i=$config['START_ROW'];$i<$rowCount;$i++){
     $cellValue = $workSheet->getCell($config['READ_CELL_COL'].$i)->getValue();
     $res = $pdo->query("select * from {$config['WHICH_TABLE']} WHERE {$config['WHICH_TABLE_COL']}='$cellValue'");
     foreach ($res as $row) {
